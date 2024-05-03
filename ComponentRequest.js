@@ -4,6 +4,7 @@ import axios from 'axios';
 function ComponentRequest() {
   const [message, setMessage] = useState('');
   const [inputValue, setInputValue] = useState('')
+  const [cognome, setCognome] = useState('')
   const [items, setItems] = useState([])
 
   useEffect(() => {
@@ -26,7 +27,6 @@ function ComponentRequest() {
 
   return (
     <div>
-      {/* <h1>Hello, World!</h1> */}
       <p>{message}</p>
       <br/>
         <input 
@@ -35,34 +35,47 @@ function ComponentRequest() {
             onChange={(event) => {
                 setInputValue(event.currentTarget.value)
             }}
+            placeholder='name'
+        />
+        <input 
+            type='text'
+            value={cognome}
+            onChange={(event) => {
+                setCognome(event.currentTarget.value)
+            }}
+            placeholder='cognome'
         />
         <button
             onClick={() =>{
-              axios.post('http://localhost:9735/api/react/', {name: inputValue})
+              axios.post('http://localhost:9735/api/react/', {name: inputValue, cognome: cognome})
               .then(response => {
                 axios.get('http://localhost:9735/api/react/').then(response => setItems(response.data)).catch(error => console.log(error))
               })
               .catch(error => console.log(error))
               setInputValue('')
+              setCognome('')
             }}
         >
             SEND
         </button>
-        
-      <ul>
+        <div>
+          <ul>
         {items.map(i=>
-        <li 
-          key={i.id}
+        <div>
+          <p 
+            key={i.id}
           onClick={() => {
             axios.delete(`http://localhost:9735/api/react_detail/${i.id}`).then(response => {
               axios.get('http://localhost:9735/api/react/').then(response => setItems(response.data)).catch(error => console.log(error))
             }).catch(error => console.log(error))
           }}
-          
-        >
-          {`${i.id} ${i.name}`}
-        </li>)}
+          >
+            {`${i.id}. ${i.name} ${i.cognome}` }
+          </p>
+        </div>
+      )}
       </ul>
+        </div>
     </div>
   );
 }
