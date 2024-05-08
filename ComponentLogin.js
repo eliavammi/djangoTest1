@@ -63,6 +63,14 @@ function ComponentLogin() {
                 Register
             </button>
         </div>}
+        {login&&<button
+          onClick={()=>{
+            axios.post('http://localhost:9735/api/user-logout/', {}).then(response => console.log(response)).catch(error => console.log(error))
+            setLogin(false)
+          }}
+        >
+          Logout
+        </button>}
         {login&&<ComponentRequest/>}
         </div>
     )
