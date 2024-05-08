@@ -11,7 +11,7 @@ from django.db.models.signals import post_save
 class ReactSerializers(serializers.ModelSerializer):
     class Meta:
         model = React
-        fields = ['id', 'name', 'cognome']
+        fields = ['id', 'name', 'cognome', 'creationDate', 'updateDate']
 
         def create(self, validate_data):
             return React.objects.create(**validate_data)
