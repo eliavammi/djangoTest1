@@ -13,7 +13,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import AllowAny
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 @csrf_exempt
 def react_list(request, format=None):
@@ -84,3 +84,8 @@ class UserLoginView(APIView):
             return Response({'token': token.key})
         else:
             return Response({'error': 'Invalid credentials'}, status=401)
+
+class UserLogoutView(APIView):
+    def post(self, request):
+        logout(request)
+        return Response({'message': "Logout successful"})
